@@ -1,0 +1,49 @@
+Cameron Baker
+The following is the workflow to obtain the otu's and related statistics
+for people with microbiome data on the PGP. In the future, I plan on combining this
+all in a single script
+
+-------------
+PREPROCESSING
+-------------
+For peoples suffering a disorder (This example uses IBS)
+1. Get patient survey
+2. Read survey to determine a target disorder
+3. Collect subset of CSV relating to that disorder
+   grep "IBS" dig_survey > IBS_patients.csv
+4. use get_patient.pl to extract the patient id's. will write to outfile.txt
+   perl get_patient.pl patient_survey
+5. use auto_dl.sh to retrieve html files from the server. will use outfile.txt
+   ./auto_dl.sh
+6. Remake outfile.txt to only include html files relating to pations
+   ls | grep '^hu*' > outfile.txt
+7. use retrieve_data.sh to download the datasets, parsing the html files
+   ./retrieve_data.sh
+8. remove all html files
+   rm ????????
+9. unzip all datafiles
+   unzip '*.data'
+10. remove all archives
+   rm *.data
+11. obtain a list of directories containing the data
+   ls | grep '_results' > outfile.txt
+12. obtain the data tables from within the directories
+   ./ret_tables.sh
+13. iterate through files, writing important data to 
+
+If retrieving info on all datasets
+1. Retrieve the html file of using wget with the url
+2. Extract the patient Id's from the html file using the following command
+
+   grep '/profile/*' html_filename | grep -Po '".?"' | grep -v "width" | grep -v "participant" | cut -d '"' -f 2 | cut -d '/' -f 3 > outfile.txt
+
+3. continue along the same procedure as above, starting from step 5
+
+--------------
+POSTPROCESSING
+--------------
+
+1. Transfer all of the OTU files to a single directory
+2. Within R, transverse to that directory and run generateplots.R
+3. This will give you 3 cluster plots for each OTU
+
