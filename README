@@ -6,7 +6,6 @@ all in a single script
 -------------
 PREPROCESSING
 -------------
-For peoples suffering a disorder (This example uses IBS)
 1. Get patient survey
 2. Retrieve the html file of using wget with the url
 3. Extract the patient Id's from the html file using the following command
@@ -15,21 +14,23 @@ For peoples suffering a disorder (This example uses IBS)
 
 4. use auto_dl.sh to retrieve html files from the server. will use outfile.txt
    ./auto_dl.sh
-5. Remake outfile.txt to only include html files relating to pations
+5. Remove duplicate entries
+    rm *.[1-9]
+6. Remake outfile.txt to only include html files relating to pations
    ls | grep '^hu*' > outfile.txt
-6. use retrieve_data.sh to download the datasets, parsing the html files
+7. use retrieve_data.sh to download the datasets, parsing the html files
    ./retrieve_data.sh
-7. remove all html files
+8. remove all html files
    rm ????????
-8. create a list of data files
+9. create a list of data files
    ls *.data > in
-9. unzip all the files using unzip_patients.pl
+10. unzip all the files using unzip_patients.pl
    perl unzip_patients.pl
-10. remove all archives
+11. remove all archives
    rm *.data
-11. Create a list of all data directories
+12. Create a list of all data directories
    ls -d ???????? > links
-12. Compile all OTU files
+13. Compile all OTU files
    perl process_tables.pl links 
    
 
@@ -39,5 +40,5 @@ POSTPROCESSING
 
 1. Transfer all of the OTU files to a single directory
 2. Within R, transverse to that directory and run generateplots.R
-3. This will give you 3 cluster plots for each OTU
+3. This will give you 2 cluster plots for each OTU
 
